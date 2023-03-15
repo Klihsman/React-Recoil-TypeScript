@@ -12,11 +12,18 @@ export default function Login() {
     const navigate = useNavigate();
 
     function submitControl() {
-        const getUser: User = JSON.parse(localStorage.getItem('user') || '');
+        debugger
+        const storageUser = localStorage.getItem('user');
 
-        if (email === getUser.email && password === getUser.password) {
-            setUser(getUser);
-            navigate('/');
+        if (storageUser) {
+            const getUser: User = JSON.parse(storageUser || '');
+
+            if (email === getUser.email && password === getUser.password) {
+                setUser(getUser);
+                navigate('/logged');
+            } else {
+                alert('Não foi possível logar');
+            }
         } else {
             alert('Não foi possível logar');
         }
@@ -35,6 +42,7 @@ export default function Login() {
                 </div>
                 <button type="submit">Logar</button>
             </form>
+            <a href="/register">Cadastrar</a>
         </div>
     )
 };

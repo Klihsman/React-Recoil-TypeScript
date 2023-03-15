@@ -1,24 +1,25 @@
 import User from "../../Interfaces/UserInterface";
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Register() {
     const [user, setUser] = useState<User | {}>({});
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [age, setAge] = useState(0);
-
-    useEffect(() => {
-        const user: User = JSON.parse(localStorage.getItem('user') || '');
-        setName(user.name);
-        setEmail(user.email);
-        setPassword(user.password);
-        setAge(user.age);
-        setUser(user);
-    }, []);
+    const navigate = useNavigate();
 
     function submitControl() {
-        console.log('logout');
+        const postUser: User = {
+            name,
+            email,
+            password,
+            age
+        }
+
+        localStorage.setItem('user', JSON.stringify(postUser));
+         navigate('/login');
     }
 
     return (
@@ -40,7 +41,7 @@ export default function Home() {
                     <label htmlFor="">Idade</label>
                     <input type="number" name="" id="" value={age} onChange={(e) => { setAge(e.target.value as unknown as number) }} />
                 </div>
-                <button type="submit">Logout</button>
+                <button type="submit">Cadastrar</button>
             </form>
         </div>
     )
